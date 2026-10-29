@@ -1,0 +1,23 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Widget preview harness</title>
+<style>
+  body { margin: 0; padding: 16px; background: #16161b; font-family: monospace; color: #ccc; }
+  .row { display: flex; gap: 24px; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; gap: 6px; }
+  .label { font-size: 11px; color: #888; }
+  iframe { width: 340px; height: 360px; border: 1px solid #333; display: block; background: #101014; }
+  iframe.light { background: #f5f2ec; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="col"><span class="label">dark 340x360</span><iframe src="http://127.0.0.1:8793/?theme=dark"></iframe></div>
+    <div class="col"><span class="label">light 340x360</span><iframe class="light" src="http://127.0.0.1:8793/?theme=light"></iframe></div>
+    <div class="col"><span class="label">auto 300x330</span><iframe style="width:300px;height:330px" src="http://127.0.0.1:8793/?theme=auto"></iframe></div>
+    <div class="col"><span class="label">balance 340x360</span><iframe src="http://127.0.0.1:8790/?theme=dark"></iframe></div>
+  </div>
+</body>
+</html>

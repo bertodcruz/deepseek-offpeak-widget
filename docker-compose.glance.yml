@@ -1,0 +1,58 @@
+# Complete example: Glance + the DeepSeek widget on one Docker network.
+#
+#   1. cp .env.example .env
+#   2. set DEEPSEEK_PUBLIC_URL to an address your browser can reach
+#      (e.g. http://192.168.1.10:8787)
+#   3. docker compose -f docker-compose.glance.yml up -d --build
+#   4. open http://localhost:8080
+#
+# If Glance is already running elsewhere, use docker-compose.yml instead and
+# copy glance/deepseek.yml into your existing Glance config.
+
+services:
+  glance:
+    image: glanceapp/glance:latest
+    container_name: glance
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DEEPSEEK_PUBLIC_URL: ${DEEPSEEK_PUBLIC_URL}
+      DEEPSEEK_INTERNAL_URL: http://deepseek-offpeak:8787
+      WIDGET_TOKEN: ${WIDGET_TOKEN:-}
+    volumes:
+      - ./glance/full-glance.yml:/app/config/glance.yml:ro
+    depends_on:
+      deepseek-offpeak:
+        condition: service_healthy
+
+  deepseek-offpeak:
+    build: .
+    image: glance-deepseek-offpeak:1.0.0
+    container_name: deepseek-offpeak
+    restart: unless-stopped
+    init: true
+    environment:
+      DATA_DIR: /data
+      TIME_FORMAT: ${TIME_FORMAT:-24h}
+      WIDGET_TOKEN: ${WIDGET_TOKEN:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_API_KEY_FILE: ${DEEPSEEK_API_KEY_FILE:-}
+    volumes:
+      - deepseek-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  deepseek-data:

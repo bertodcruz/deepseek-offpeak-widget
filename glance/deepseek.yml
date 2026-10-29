@@ -1,0 +1,46 @@
+# DeepSeek off-peak widget for Glance.
+#
+# Add this widget under a column in your glance.yml. The widget is a live
+# iframe: it ticks its own countdown and refreshes its state without reloading
+# the Glance page.
+#
+# Required environment variables for Glance:
+#   DEEPSEEK_PUBLIC_URL  e.g. http://192.168.1.10:8787  (no trailing slash)
+#
+# If you set WIDGET_TOKEN on the widget service, use the token form below
+# instead of `source:`.
+#
+# Add &time=12h to either URL for regular time (7pm, 10am). The service-wide
+# TIME_FORMAT=12h environment variable sets the default instead.
+
+- type: iframe
+  title: DeepSeek
+  hide-header: true
+  source: "${DEEPSEEK_PUBLIC_URL}/?theme=auto"
+  height: 360
+  css-class: deepseek-offpeak
+
+# 12-hour form:
+#
+#   source: "${DEEPSEEK_PUBLIC_URL}/?theme=auto&time=12h"
+#
+# Token form:
+#
+# - type: iframe
+#   title: DeepSeek
+#   hide-header: true
+#   source: "${DEEPSEEK_PUBLIC_URL}/?theme=auto&token=${WIDGET_TOKEN}"
+#   height: 360
+#   css-class: deepseek-offpeak
+#
+# Token + 12-hour form:
+#
+#   source: "${DEEPSEEK_PUBLIC_URL}/?theme=auto&time=12h&token=${WIDGET_TOKEN}"
+#
+# Theme notes:
+#   - theme=auto follows the OS when the iframe is cross-origin, and follows
+#     Glance's CSS variables when the widget is served on the same origin.
+#   - If Glance is configured with a light theme and the iframe is on another
+#     origin, use ?theme=light (or ?theme=dark) explicitly.
+#   - Height 360 fits the widget without a balance. Use 400 if you show two
+#     balance rows or a long error message.

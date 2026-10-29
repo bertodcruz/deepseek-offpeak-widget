@@ -1,0 +1,37 @@
+# Optional alternative: let Glance check the widget service before rendering the
+# iframe. This is still a live iframe inside a normal Glance card; Glance does
+# not refresh the page HTML while the dashboard is open.
+#
+# Use this instead of `glance/deepseek.yml` when:
+#   - Glance and the widget service are on the same Docker network, and
+#   - you want Glance to show a readable error card when the service is down.
+#
+# The iframe is loaded by the *browser*, so DEEPSEEK_PUBLIC_URL must be a
+# browser-reachable address. The JSON check is made by the *Glance server*, so
+# DEEPSEEK_INTERNAL_URL is the service name or an internal address.
+#
+# If WIDGET_TOKEN is set on the service, add the header below.
+
+- type: custom-api
+  title: DeepSeek
+  hide-header: true
+  frameless: true
+  cache: 15s
+  url: "${DEEPSEEK_INTERNAL_URL}/api/status"
+  # headers:
+  #   x-widget-token: "${WIDGET_TOKEN}"
+  template: |
+    {{ if eq .Response.StatusCode 200 }}
+      <iframe src="${DEEPSEEK_PUBLIC_URL}/?theme=auto" width="100%" height="360" frameborder="0" style="display:block;border:0"></iframe>
+    {{ else }}
+      <p class="color-negative size-h5">DeepSeek widget service returned {{ .Response.StatusCode }}.</p>
+    {{ end }}
+#
+# Token form of the iframe URL:
+#   <iframe src="${DEEPSEEK_PUBLIC_URL}/?theme=auto&token=${WIDGET_TOKEN}" ...></iframe>
+#
+# Add &time=12h for regular time (7pm, 10am), or set TIME_FORMAT=12h on the
+# widget service. The query parameter wins.
+#
+# `frameless: true` is required so Glance does not add a second border and
+# padding around the widget's own card.

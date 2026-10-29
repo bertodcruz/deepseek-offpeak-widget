@@ -1,0 +1,46 @@
+# Attribution
+
+This project is an independently deployable Glance companion inspired by and
+partly ported from **DavidHLP/deepseek-offpeak** (MIT):
+
+- https://github.com/DavidHLP/deepseek-offpeak
+- Copyright (c) 2026 David
+
+The following modules are ports of that project's billing-window math, holiday
+validation/cache semantics, and balance response validation:
+
+- `src/schedule.js`
+- `src/holidays.js`
+- `src/balance.js`
+
+They remain under the MIT license reproduced in `LICENSE`.
+
+## Holiday data
+
+Holiday dates are fetched from **holiday-cn** by NateScarlet:
+
+- https://github.com/NateScarlet/holiday-cn
+
+`holiday-cn` is a machine-readable transcription of the State Council's annual
+public-holiday arrangement notices. The baked 2026 fallback in
+`src/holidays.js` is transcribed from the same source and the notice it cites.
+
+## Font
+
+`public/fonts/JetBrainsMono-Regular.woff2` is JetBrains Mono, licensed under the
+SIL Open Font License 1.1. The license text is in
+`public/fonts/OFL.txt`.
+
+## DeepSeek logo
+
+`public/deepseek.svg` is the DeepSeek logo, taken from the upstream project's
+`assets/deepseek.svg`. The DeepSeek name and logo are trademarks of their
+owner; they are used here only to identify the service this widget reports on.
+
+## Glance
+
+This project is not a fork of Glance and does not modify Glance. It is designed
+to be embedded in Glance with the built-in `iframe` widget (or a `custom-api`
+template wrapping an iframe). Glance is licensed separately under AGPL-3.0:
+
+- https://github.com/glanceapp/glance

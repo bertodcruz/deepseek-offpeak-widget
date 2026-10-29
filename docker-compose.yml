@@ -1,0 +1,41 @@
+services:
+  deepseek-offpeak:
+    build: .
+    image: glance-deepseek-offpeak:1.0.0
+    container_name: deepseek-offpeak
+    restart: unless-stopped
+    init: true
+    ports:
+      - "8787:8787"
+    environment:
+      DATA_DIR: /data
+      TIME_FORMAT: ${TIME_FORMAT:-24h}
+      WIDGET_TOKEN: ${WIDGET_TOKEN:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_API_KEY_FILE: ${DEEPSEEK_API_KEY_FILE:-}
+      # BALANCE_DISABLED: "1"
+      # HOLIDAYS_DISABLED: "1"
+      # BALANCE_REFRESH_SECONDS: "300"
+      # HOLIDAY_REFRESH_HOURS: "168"
+      # LOG_LEVEL: info
+    volumes:
+      - deepseek-data:/data
+      # Optional key-file mount. The file must be readable by the container's
+      # `node` user (UID 1000 in the official image).
+      # - ./config/key:/run/secrets/deepseek_api_key:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  deepseek-data:

@@ -1,0 +1,45 @@
+# A complete minimal Glance configuration with the DeepSeek widget.
+#
+# Copy this to glance.yml (or merge the page/widget into your existing config)
+# and set DEEPSEEK_PUBLIC_URL before starting Glance.
+#
+# `server` and `theme` are optional; they are shown here so the file is a
+# working standalone config.
+
+server:
+  host: 0.0.0.0
+  port: 8080
+
+theme:
+  background-color: 240 8 9
+  primary-color: 43 50 70
+
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: iframe
+            title: DeepSeek
+            hide-header: true
+            # Add &time=12h for regular time (7pm, 10am).
+            source: "${DEEPSEEK_PUBLIC_URL}/?theme=auto"
+            height: 360
+            css-class: deepseek-offpeak
+
+          # Add your other small widgets here, for example:
+          # - type: calendar
+          #   first-day-of-week: monday
+
+      - size: full
+        widgets:
+          - type: clock
+            hour-format: 24h
+            timezones:
+              - timezone: Europe/London
+                label: London
+              - timezone: Asia/Shanghai
+                label: Beijing
+
+# If you use the token-protected service, replace the source with:
+#   source: "${DEEPSEEK_PUBLIC_URL}/?theme=auto&token=${WIDGET_TOKEN}"

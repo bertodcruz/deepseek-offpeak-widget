@@ -1,0 +1,13 @@
+node_modules
+data
+.git
+.github
+docs
+*.md
+!LICENSE
+!NOTICE
+glance
+test
+scripts
+docker-compose*.yml
+.env*

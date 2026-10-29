@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="robots" content="noindex, nofollow">
+  <title>DeepSeek off-peak</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="widget.css">
+  <script src="widget-core.js" defer></script>
+  <script src="widget.js" defer></script>
+</head>
+<body>
+  <main class="card" id="app" data-state="loading" data-connection="connecting">
+    <header class="top">
+      <div class="brand">
+        <img class="brand-mark" src="deepseek.svg" alt="" width="23" height="17">
+        <span class="brand-name">DeepSeek</span>
+        <span class="brand-divider" aria-hidden="true">/</span>
+        <span class="brand-sub">off-peak</span>
+      </div>
+      <div class="phase" id="phaseBadge">
+        <span class="phase-dot" aria-hidden="true"></span>
+        <span id="phaseLabel">Checking</span>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Current DeepSeek billing state">
+      <div class="countdown-block">
+        <div class="countdown" id="countdown">--:--:--</div>
+        <div class="countdown-caption" id="nextLabel">until next change</div>
+      </div>
+      <div class="next-switch">
+        <div class="eyebrow" id="switchTitle">NEXT CHANGE</div>
+        <div class="switch-local" id="switchLocal">--:--</div>
+        <div class="switch-sub" id="switchSub">local</div>
+        <div class="switch-utc" id="switchUtc">--:-- UTC</div>
+      </div>
+    </section>
+
+    <div class="nowline">
+      <span class="now-main" id="nowMain">--:-- local</span>
+      <span class="now-dot" aria-hidden="true">&middot;</span>
+      <span id="nowUtc">--:-- UTC</span>
+      <span class="now-offset" id="nowOffset">UTC</span>
+    </div>
+
+    <section class="timeline" id="timeline" aria-label="Today's peak and off-peak periods">
+      <div class="bar" id="timelineBar" role="img" aria-label="Loading today's schedule"></div>
+      <div class="axis" id="timelineAxis" aria-hidden="true"></div>
+      <div class="peaks">
+        <div class="peaks-head">
+          <span class="eyebrow">PEAK TODAY</span>
+          <span class="peaks-source" id="holidayTag"></span>
+        </div>
+        <div class="peaks-local" id="peakLocal">--</div>
+        <div class="peaks-utc" id="peakUtc">--</div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Schedule details">
+      <div class="stat">
+        <span class="stat-label">Off-peak ends</span>
+        <span class="stat-value" id="offPeakEnd">--:--</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Beijing</span>
+        <span class="stat-value" id="beijingNow">--:--</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Day</span>
+        <span class="stat-value" id="dayLabel">--</span>
+      </div>
+    </section>
+
+    <section class="balance" id="balanceSection" hidden aria-label="Account balance">
+      <div class="balance-head">
+        <span class="eyebrow">BALANCE</span>
+        <span class="balance-age" id="balanceAge"></span>
+        <button class="icon-button" id="balanceRefresh" type="button" title="Refresh balance" aria-label="Refresh account balance">&#8635;</button>
+      </div>
+      <div class="balance-rows" id="balanceRows"></div>
+      <div class="balance-message" id="balanceMessage" hidden></div>
+    </section>
+
+    <footer class="foot">
+      <span class="foot-state" id="statusNote">Connecting&hellip;</span>
+      <span class="foot-warning" id="warning" hidden></span>
+      <span class="foot-brand">Holidays: holiday-cn</span>
+    </footer>
+
+    <noscript>
+      <p class="noscript">This widget needs JavaScript for the live countdown.</p>
+    </noscript>
+  </main>
+</body>
+</html>

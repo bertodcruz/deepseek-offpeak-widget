@@ -1,0 +1,39 @@
+# Runs the image published by this repository's CI (see .github/workflows/publish.yml).
+# No build step, no local Dockerfile needed — this is the variant to use on a server
+# that only pulls images.
+#
+#   cp .env.example .env      # then fill in what you need
+#   docker compose -f docker-compose.ghcr.yml up -d
+
+services:
+  deepseek-offpeak:
+    image: ghcr.io/bertodcruz/deepseek-offpeak-widget:latest   # pin a version in production, e.g. :1.0.1
+    container_name: deepseek-offpeak
+    restart: unless-stopped
+    init: true
+    ports:
+      - "8787:8787"
+    environment:
+      DATA_DIR: /data
+      TIME_FORMAT: ${TIME_FORMAT:-24h}
+      WIDGET_TOKEN: ${WIDGET_TOKEN:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_API_KEY_FILE: ${DEEPSEEK_API_KEY_FILE:-}
+    volumes:
+      - deepseek-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  deepseek-data:

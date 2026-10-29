@@ -1,0 +1,19 @@
+# Runtime data written by the container (holiday cache, etc.)
+data/
+/tmp/
+
+# Local configuration — never commit real values
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+coverage/
+*.log
+npm-debug.log*
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
