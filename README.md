@@ -8,8 +8,8 @@ Beijing time, names Chinese public holidays, and never derives billing state fro
 availability. The schedule is computed locally from DeepSeek's published timetable.
 
 <p align="center">
-  <img src="docs/preview-offpeak.png" width="340" alt="DeepSeek off-peak widget">
-  <img src="docs/preview-peak.png" width="340" alt="DeepSeek peak widget">
+  <img src="docs/preview-offpeak.png" width="300" alt="Off-peak: green accent, 1:53:48 until peak, today's peak windows and the Beijing clock">
+  <img src="docs/preview-peak.png" width="300" alt="Peak: amber accent, countdown to off-peak at 04:00 UTC">
 </p>
 
 ## What it does
