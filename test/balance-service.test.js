@@ -174,7 +174,14 @@ test("a timeout aborts the request", async () => {
     apiKey: KEY,
     timeoutMs: 40,
     fetchImpl: async (url, options) => new Promise((resolve, reject) => {
+      // The service unrefs its own request timer (correct for a server: it must
+      // not hold a shutting-down process open). That means nothing would keep
+      // the event loop alive while this fake request hangs, so on Node 22 the
+      // test runner drained the loop and cancelled this test before the abort
+      // could fire. A ref'd timer here holds the loop until the signal aborts.
+      const keepAlive = setTimeout(() => {}, 5000)
       options.signal.addEventListener("abort", () => {
+        clearTimeout(keepAlive)
         const error = new Error("aborted")
         error.name = "AbortError"
         reject(error)
